@@ -1,0 +1,15 @@
+.student {
+  width: calc(100% / 4 - 48px / 3);
+  padding: 24px;
+  border: 1px solid rgb(9, 9, 9);
+  border-radius: 10px;
+  background: #9cd7e7;
+}
+.student h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.student ul li {
+  margin-bottom: 16px;
+}

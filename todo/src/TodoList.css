@@ -1,0 +1,29 @@
+.todo-list {
+  background-color: rgb(191 239 255);
+}
+
+.todo-list.dark {
+  background-color: rgb(16 78 139);
+}
+
+/* li:before {
+  content: none;
+} */
+
+body {
+  background: rgb(191 239 255);
+}
+body.todo-list.dark {
+  background: darkgray;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 10px; /* Điều chỉnh khoảng cách dưới của các phần tử li */
+  border-bottom: 1px solid #ccc; /* Thêm khung ngang cho mỗi phần tử li */
+}
