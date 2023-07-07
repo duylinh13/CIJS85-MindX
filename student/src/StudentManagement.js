@@ -39,6 +39,15 @@ const studentMockData = [
     chem: 9,
     bio: 10,
   },
+  {
+    studentName: "sdfdsf",
+    classCode: "12A9",
+    math: 9,
+    liter: 9,
+    phy: 9,
+    chem: 9,
+    bio: 10,
+  },
 ];
 
 const StudentManagement = () => {
