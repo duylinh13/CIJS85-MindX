@@ -1,33 +1,59 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialState = {
   studentName: "",
   classCode: "",
   math: "",
   phy: "",
-  eng: "",
   chem: "",
-  liter: "",
-  bio: "",
 };
 
-const AddNewStudent = (props) => {
-  const { onAddStudent } = props;
+const StudentForm = (props) => {
+  const { initialValues, addNewStudent, updateStudent } = props;
   const [student, setStudent] = useState(initialState);
+  const [formMode, setFormMode] = useState("add");
+
+  useEffect(() => {
+    const hasInitialValues =
+      initialValues.studentName &&
+      initialValues.classCode &&
+      initialValues.math &&
+      initialValues.phy &&
+      initialValues.chem;
+    if (hasInitialValues) {
+      setStudent({ ...initialValues });
+      setFormMode("update");
+    } else {
+      setStudent({ ...initialState });
+      setFormMode("add");
+    }
+  }, [initialValues]);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
 
-    setStudent((prevStudent) => ({
-      ...prevStudent,
+    setStudent({
+      ...student,
       [name]: value,
-    }));
+    });
   };
 
   const onSubmitHandler = (event) => {
+    // Ngăn chặn hành động submit form của mặc định
     event.preventDefault();
-    onAddStudent(student);
-    setStudent(initialState);
+
+    // Event up: Notify cái function ở component cha biết được
+    // button con vừa được click
+    // Sau khi thêm xong dữ liệu
+    // Clear form
+    if (formMode === "add") {
+      addNewStudent(student);
+      setStudent({ ...initialState });
+    } else {
+      updateStudent(student);
+      setFormMode("add");
+      setStudent({ ...initialState });
+    }
   };
 
   return (
@@ -37,7 +63,7 @@ const AddNewStudent = (props) => {
           <div className="col-6 mb-2">
             <div>
               <label htmlFor="studentName" className="form-label">
-                Name
+                Họ tên
               </label>
               <input
                 className="form-control"
@@ -50,7 +76,7 @@ const AddNewStudent = (props) => {
           </div>
           <div className="col-6 mb-2">
             <label htmlFor="classCode" className="form-label">
-              Class
+              Lớp
             </label>
             <input
               className="form-control"
@@ -62,7 +88,7 @@ const AddNewStudent = (props) => {
           </div>
           <div className="col-6 mb-2">
             <label htmlFor="math" className="form-label">
-              Maths
+              Điểm toán
             </label>
             <input
               className="form-control"
@@ -74,77 +100,38 @@ const AddNewStudent = (props) => {
             />
           </div>
           <div className="col-6 mb-2">
-            <label htmlFor="liter" className="form-label">
-              Literature
-            </label>
-            <input
-              className="form-control"
-              id="liter"
-              type="number"
-              name="liter"
-              value={student.liter}
-              onChange={onChangeHandler}
-            />
-          </div>
-          <div className="col-6 mb-2">
             <label htmlFor="phy" className="form-label">
-              Physical
+              Điểm lý
             </label>
             <input
               className="form-control"
               id="phy"
               type="number"
               name="phy"
-              value={student.phy}
               onChange={onChangeHandler}
+              value={student.phy}
             />
           </div>
           <div className="col-6 mb-2">
             <label htmlFor="chem" className="form-label">
-              Chemistry
+              Điểm hoá
             </label>
             <input
               className="form-control"
               id="chem"
-              type="number"
               name="chem"
+              type="number"
+              onChange={onChangeHandler}
               value={student.chem}
-              onChange={onChangeHandler}
-            />
-          </div>
-          <div className="col-6 mb-2">
-            <label htmlFor="bio" className="form-label">
-              Biology
-            </label>
-            <input
-              className="form-control"
-              id="bio"
-              type="number"
-              name="bio"
-              value={student.bio}
-              onChange={onChangeHandler}
-            />
-          </div>
-          <div className="col-6 mb-2">
-            <label htmlFor="eng" className="form-label">
-              English
-            </label>
-            <input
-              className="form-control"
-              id="eng"
-              type="number"
-              name="eng"
-              value={student.eng}
-              onChange={onChangeHandler}
             />
           </div>
         </div>
         <button className="btn btn-primary mt-3" type="submit">
-          Add New Student
+          {formMode === "add" ? "Thêm mới học sinh" : "Cập nhật"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddNewStudent;
+export default StudentForm;
